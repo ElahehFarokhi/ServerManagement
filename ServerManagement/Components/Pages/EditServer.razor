@@ -2,6 +2,7 @@
 @using ServerManagement.Models
 
 @inject NavigationManager NavigationManager
+@rendermode InteractiveServer
 
 <h3>Edit Server</h3>
 <br />
@@ -63,7 +64,7 @@
             ServersRepository.UpdateServer(server.ServerId, server);
         }
 
-        NavigationManager.NavigateTo("/servers", true);
+        NavigationManager.NavigateTo($"/servers/back_from/{server?.City}");
 
     }
 

@@ -17,18 +17,24 @@
     [Parameter]
     public EventCallback<string> SelectCityCallBack { get; set; }
 
+    [Parameter]
+    public string SelectedCity { get; set; } = "Toronto";
+
     private List<string> cities = CitiesRepository.GetCities();
-    private string selectedCity = "Toronto";
-    private bool IsSelected(string city) => selectedCity.Equals(city,StringComparison.OrdinalIgnoreCase);
+    private bool IsSelected(string city) => SelectedCity.Equals(city, StringComparison.OrdinalIgnoreCase);
+
+    protected override void OnParametersSet()
+    {
+    }
 
     public void ClearSelection()
     {
-        this.selectedCity = string.Empty;   
+        this.SelectedCity = string.Empty;
     }
 
     private void HandleCitySelection(string city)
     {
-        this.selectedCity = city;
+        this.SelectedCity = city;
         SelectCityCallBack.InvokeAsync(city);
     }
 }
