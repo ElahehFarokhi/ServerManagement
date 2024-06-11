@@ -1,0 +1,40 @@
+﻿@page "/servers"
+@using ServerManagement.Models
+@rendermode InteractiveServer
+
+<h3>Servers</h3>
+<br />
+<br />
+
+<CityListComponent @ref="cityListComponent" SelectCityCallBack="HandleCitySelection"></CityListComponent>
+
+<br />
+<SearchComponent @ref="searchComponent" SearchFilterCallBack="HandleSearchFilter"></SearchComponent>
+
+<CascadingValue Name="SelectedCity" Value="@selectedCity">
+    <ServerListComponent
+        SearchFilter="@this.searchFilter" 
+        CityName="@this.selectedCity" @rendermode="InteractiveServer">
+    </ServerListComponent>
+</CascadingValue>
+<p>
+    <a href="/servers/add" class="btn btn-primary">Add Server</a>
+</p>
+@code {
+    private string selectedCity = "Toronto";
+    private string searchFilter = "";
+    private CityListComponent? cityListComponent;
+    private SearchComponent? searchComponent;
+    private void HandleCitySelection(string city)
+    {
+        this.selectedCity = city;
+        this.searchFilter = string.Empty;
+        searchComponent.ClearSearchFilter();
+    }
+
+    private void HandleSearchFilter(string searchFilter)
+    {
+        this.searchFilter = searchFilter;
+        cityListComponent?.ClearSelection();
+    }
+}

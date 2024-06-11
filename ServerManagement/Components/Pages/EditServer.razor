@@ -1,0 +1,70 @@
+﻿@page "/servers/{id:int}"
+@using ServerManagement.Models
+
+@inject NavigationManager NavigationManager
+
+<h3>Edit Server</h3>
+<br />
+<br />
+
+@if (server != null)
+{
+    <EditForm Model="server" FormName="formServer" OnValidSubmit="Submit">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+
+        <InputNumber @bind-Value="server.ServerId" hidden></InputNumber>
+        <FieldComponent Label="Name">
+            <Control>
+                <InputText class="form-control" @bind-Value="server.Name">@server.Name</InputText>
+                </Control>
+                <ValidationControl>
+                    <ValidationMessage For="() => server.Name"></ValidationMessage>
+                </ValidationControl>
+            </FieldComponent>
+            <FieldComponent Label="City">
+                <Control>
+                    <InputText class="form-control" @bind-Value="server.City">@server.City</InputText>
+                </Control>
+                <ValidationControl>
+                    <ValidationMessage For="() => server.City"></ValidationMessage>
+                </ValidationControl>
+            </FieldComponent>
+            <FieldComponent Label="Online">
+                <Control>
+                    <InputCheckbox class="form-check-input" @bind-Value="server.IsOnline">@server.IsOnline</InputCheckbox>
+                </Control>
+            </FieldComponent>
+            <br />
+            <button class="btn btn-primary" type="submit">Update</button>
+            &nbsp;
+            <a href="/servers" class="btn btn-primary">Close</a>
+        </EditForm>
+}
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Server? server { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        server ??= ServersRepository.GetServerById(this.Id);
+    }
+
+    private void Submit()
+    {
+        if (server != null)
+        {
+            ServersRepository.UpdateServer(server.ServerId, server);
+        }
+
+        NavigationManager.NavigateTo("/servers", true);
+
+    }
+
+}

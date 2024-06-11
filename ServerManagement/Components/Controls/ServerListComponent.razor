@@ -1,0 +1,56 @@
+﻿@using ServerManagement.Models
+
+@* @if (this.servers != null && this.servers.Count > 0)
+{
+
+    <ul class="list-unstyled">
+        <Virtualize Items="this.servers" Context="server">
+            <ServerComponent Server="server"></ServerComponent>
+        </Virtualize>
+    </ul>
+
+} *@
+
+<table class="table table-striped">
+    <RepeaterComponent Items="this.servers">
+        <Header>
+          <thead>
+              <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Status</th>
+                <th>People Online</th>
+                <th></th>
+                <th></th>
+              </tr>
+          </thead>
+        </Header>
+        <Row Context="server">
+            <ServerComponent Server="server"></ServerComponent>
+        </Row>
+    </RepeaterComponent>
+</table>
+
+@code {
+
+    [Parameter]
+    public string? CityName { get; set; }
+
+    [Parameter]
+    public string SearchFilter { get; set; }
+
+    private List<Server> servers;
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrWhiteSpace(SearchFilter))
+        {
+            servers = ServersRepository.SearchServers(SearchFilter);
+        }
+        else if (CityName != null)
+        {
+            servers = ServersRepository.GetServersByCity(CityName);
+
+        }
+    }
+}

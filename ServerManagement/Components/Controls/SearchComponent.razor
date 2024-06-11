@@ -1,0 +1,31 @@
+﻿@using ServerManagement.Models
+<div class="input-group mb-3 input-width">
+    <input type="text" class="form-control ps-2 pe-2" placeholder="Search Servers" @bind-value="serverFilter" @bind-value:event="oninput" />
+    <button class="btn btn-outline-secondary" @onclick="HandleSearch">Search</button>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public EventCallback<string> SearchFilterCallBack { get; set; }
+    private string _serverFilter = string.Empty;
+    private string serverFilter
+    {
+        get => _serverFilter;
+        set
+        {
+            _serverFilter = value;
+        }
+    }
+
+    private void HandleSearch()
+    {
+        SearchFilterCallBack.InvokeAsync(_serverFilter);
+    }
+
+    public void ClearSearchFilter()
+    {
+        serverFilter = string.Empty;
+    }
+}
