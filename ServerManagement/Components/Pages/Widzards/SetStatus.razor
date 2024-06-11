@@ -1,0 +1,84 @@
+﻿@page "/serverstatus"
+@using ServerManagement.Models
+@using ServerManagement.StateStore
+
+@rendermode InteractiveServer
+
+@inherits ComponentBase
+
+@inject NavigationManager NavigationManager
+@inject SessionStorage SessionStorage
+
+<h3>Server Status</h3>
+<br />
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+    <FieldComponent Label="Server Status">
+        <Control>
+            <input type="checkbox"
+                   @bind-value="isOnline"
+                   checked class="form-check-input"></input>
+
+        </Control>
+    </FieldComponent>
+    <br />
+    <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+
+@code {
+    private bool isOnline;
+
+    private string? errorMessage;
+
+    [SupplyParameterFromQuery]
+    public string ServerName { get; set; }
+
+    [SupplyParameterFromQuery]
+    public string CityName { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (string.IsNullOrWhiteSpace(ServerName))
+            {
+                this.errorMessage = "Server name was not provided!";
+                StateHasChanged();
+            } 
+            else if (string.IsNullOrWhiteSpace(CityName))
+            {
+                this.errorMessage = "City Name was not provided.";
+                StateHasChanged();
+            }
+        }
+    }
+
+    private void Save()
+    {
+        if (string.IsNullOrWhiteSpace(ServerName))
+        {
+            this.errorMessage = "Server name was not provided!";
+            return;
+        }
+        else if (string.IsNullOrWhiteSpace(CityName))
+        {
+            this.errorMessage = "City Name was not provided.";
+            return;
+
+        }
+
+        var server = new Server()
+        {
+             City = CityName,
+             Name = ServerName,
+             IsOnline = isOnline
+        };
+        ServersRepository.AddServer(server);
+
+            NavigationManager.NavigateTo($"/servers/back_from/{CityName}");
+    }
+}

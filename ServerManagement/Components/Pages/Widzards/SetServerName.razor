@@ -1,0 +1,52 @@
+﻿@page "/servername"
+@using Microsoft.AspNetCore.Authorization
+@using ServerManagement.StateStore
+
+@rendermode InteractiveServer
+
+@inherits BaseComponent
+
+@inject NavigationManager NavigationManager
+@inject SessionStorage SessionStorage
+
+<h3>Server Name</h3>
+<br />
+
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<FieldComponent Label="Name">
+    <Control>
+        <input type="text" @bind-value="serverName" class="form-control"></input>
+    </Control>
+</FieldComponent>
+<br />
+<button type="button" class="btn btn-primary" @onclick="GoNext">Next</button>
+
+@code {
+    private string? serverName;
+
+    private string? errorMessage;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    private void GoNext()
+    {
+        if (string.IsNullOrWhiteSpace(serverName))
+        {
+            this.errorMessage = "Server Name is required.";
+        }
+        else
+        {
+            NavigationManager.NavigateTo($"/cityname?servername={serverName}");
+        }
+    }
+
+}
