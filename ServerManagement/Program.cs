@@ -8,6 +8,11 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddTransient<SessionStorage>();
 builder.Services.AddScoped<ContainerStorage>();
+builder.Services.AddScoped<TorontoOnlineServersStore>();
+builder.Services.AddScoped<CalgaryOnlineServersStore>();
+builder.Services.AddScoped<OttawaOnlineServersStore>();
+builder.Services.AddScoped<HalifaxOnlineServersStore>();
+builder.Services.AddScoped<MontrealOnlineServersStore>();
 
 var app = builder.Build();
 
