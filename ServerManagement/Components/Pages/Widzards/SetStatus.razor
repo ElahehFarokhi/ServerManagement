@@ -7,8 +7,8 @@
 @inherits ComponentBase
 
 @inject NavigationManager NavigationManager
-@inject SessionStorage SessionStorage
-
+@* @inject SessionStorage SessionStorage *@
+@inject ContainerStorage ContainerStorage
 <h3>Server Status</h3>
 <br />
 @if (!string.IsNullOrWhiteSpace(errorMessage))
@@ -36,24 +36,23 @@
 
     private Server? server;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            server = await SessionStorage.GetServerAsync();
+            server = ContainerStorage.GetServer();
             StateHasChanged();
         }
     }
 
-    private async Task Save()
+    private void Save()
     {
         if (server != null)
         {
-            await SessionStorage.SetServerAsync(null);
+            ContainerStorage.SetServer(null);
             server.IsOnline = isOnline;
             ServersRepository.AddServer(server);
             NavigationManager.NavigateTo($"/servers/back_from/{server.City}");
         }
-
     }
 }

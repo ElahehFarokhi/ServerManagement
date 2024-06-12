@@ -8,7 +8,8 @@
 @inherits BaseComponent
 
 @inject NavigationManager NavigationManager
-@inject SessionStorage SessionStorage
+@inject ContainerStorage ContainerStorage
+@* @inject SessionStorage SessionStorage *@
 
 <h3>Server Name</h3>
 <br />
@@ -47,12 +48,12 @@
         }
     }
 
-    private async Task GoNext()
+    private void GoNext()
     {     
         if (server is not null)
         {
             // NavigationManager.NavigateTo($"/cityname?servername={server.Name}");
-            await SessionStorage.SetServerAsync(server);
+            ContainerStorage.SetServer(server);
             NavigationManager.NavigateTo("/cityname");
         }
     }

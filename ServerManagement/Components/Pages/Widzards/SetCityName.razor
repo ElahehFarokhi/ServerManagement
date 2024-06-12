@@ -8,7 +8,8 @@
 @inherits ComponentBase
 
 @inject NavigationManager NavigationManager
-@inject SessionStorage SessionStorage
+@inject ContainerStorage ContainerStorage
+@* @inject SessionStorage SessionStorage *@
 
 <h3>City Name</h3>
 <br/>
@@ -39,21 +40,21 @@
         base.OnInitialized();
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            this.server = await SessionStorage.GetServerAsync();
+            this.server = ContainerStorage.GetServer();
             StateHasChanged();
         }
     }
 
-    private async Task GoNext()
+    private void GoNext()
     {
         if (server != null)
         {
             server.City = cityName;
-            await SessionStorage.SetServerAsync(server);
+            ContainerStorage.SetServer(server);
             NavigationManager.NavigateTo($"/serverstatus");
         }
     }
