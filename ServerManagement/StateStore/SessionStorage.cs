@@ -25,5 +25,19 @@ namespace ServerManagement.StateStore
         {
             await this.protectedSessionStorage.SetAsync("server", server);
         }
+
+        //public async Task<string?> GetCityAsync()
+        //{
+        //    var result = await this.protectedSessionStorage.GetAsync<string>("city");
+        //    if (result.Success)
+        //        return result.Value;
+        //    else
+        //        return null;
+        //}
+
+        //public async Task SetCityAsync(string? city)
+        //{
+        //    await this.protectedSessionStorage.SetAsync("city", city);
+        //}
     }
 }

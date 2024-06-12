@@ -1,5 +1,6 @@
 ﻿@page "/servername"
 @using Microsoft.AspNetCore.Authorization
+@using ServerManagement.Models
 @using ServerManagement.StateStore
 
 @rendermode InteractiveServer
@@ -21,14 +22,14 @@
 
 <FieldComponent Label="Name">
     <Control>
-        <input type="text" @bind-value="serverName" class="form-control"></input>
+        <input type="text" @bind-value="server.Name" class="form-control"></input>
     </Control>
 </FieldComponent>
 <br />
 <button type="button" class="btn btn-primary" @onclick="GoNext">Next</button>
 
 @code {
-    private string? serverName;
+    private Server? server = new();
 
     private string? errorMessage;
 
@@ -37,15 +38,22 @@
         base.OnInitialized();
     }
 
-    private void GoNext()
+    protected override void OnAfterRender(bool firstRender)
     {
-        if (string.IsNullOrWhiteSpace(serverName))
+        if (firstRender)
         {
-            this.errorMessage = "Server Name is required.";
+            server = new Server();
+            StateHasChanged();
         }
-        else
+    }
+
+    private async Task GoNext()
+    {     
+        if (server is not null)
         {
-            NavigationManager.NavigateTo($"/cityname?servername={serverName}");
+            // NavigationManager.NavigateTo($"/cityname?servername={server.Name}");
+            await SessionStorage.SetServerAsync(server);
+            NavigationManager.NavigateTo("/cityname");
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿@page "/cityname"
 @using Microsoft.AspNetCore.Authorization
+@using ServerManagement.Models
 @using ServerManagement.StateStore
 
 @rendermode InteractiveServer
@@ -31,36 +32,29 @@
 
     private string? errorMessage;
 
-    [SupplyParameterFromQuery]
-    public string ServerName { get; set; }
+    private Server? server;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && string.IsNullOrWhiteSpace(ServerName))
+        if (firstRender)
         {
-            this.errorMessage = "Server name was not provided!";
+            this.server = await SessionStorage.GetServerAsync();
             StateHasChanged();
         }
     }
 
-    private void GoNext()
+    private async Task GoNext()
     {
-        if (string.IsNullOrWhiteSpace(ServerName))
+        if (server != null)
         {
-            this.errorMessage = "Server name was not provided!";
-        }
-        else if (string.IsNullOrWhiteSpace(cityName))
-        {
-            this.errorMessage = "City Name is required.";
-        }
-        else
-        {
-            NavigationManager.NavigateTo($"/serverstatus?servername={ServerName}&cityName={cityName}");
+            server.City = cityName;
+            await SessionStorage.SetServerAsync(server);
+            NavigationManager.NavigateTo($"/serverstatus");
         }
     }
 }

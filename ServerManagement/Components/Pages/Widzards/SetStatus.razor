@@ -34,51 +34,26 @@
 
     private string? errorMessage;
 
-    [SupplyParameterFromQuery]
-    public string ServerName { get; set; }
+    private Server? server;
 
-    [SupplyParameterFromQuery]
-    public string CityName { get; set; }
-
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            if (string.IsNullOrWhiteSpace(ServerName))
-            {
-                this.errorMessage = "Server name was not provided!";
-                StateHasChanged();
-            } 
-            else if (string.IsNullOrWhiteSpace(CityName))
-            {
-                this.errorMessage = "City Name was not provided.";
-                StateHasChanged();
-            }
+            server = await SessionStorage.GetServerAsync();
+            StateHasChanged();
         }
     }
 
-    private void Save()
+    private async Task Save()
     {
-        if (string.IsNullOrWhiteSpace(ServerName))
+        if (server != null)
         {
-            this.errorMessage = "Server name was not provided!";
-            return;
-        }
-        else if (string.IsNullOrWhiteSpace(CityName))
-        {
-            this.errorMessage = "City Name was not provided.";
-            return;
-
+            await SessionStorage.SetServerAsync(null);
+            server.IsOnline = isOnline;
+            ServersRepository.AddServer(server);
+            NavigationManager.NavigateTo($"/servers/back_from/{server.City}");
         }
 
-        var server = new Server()
-        {
-             City = CityName,
-             Name = ServerName,
-             IsOnline = isOnline
-        };
-        ServersRepository.AddServer(server);
-
-            NavigationManager.NavigateTo($"/servers/back_from/{CityName}");
     }
 }
