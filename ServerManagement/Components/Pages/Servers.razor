@@ -10,6 +10,8 @@
 @inject OttawaOnlineServersStore OttawaOnlineServersStore
 @inject HalifaxOnlineServersStore HalifaxOnlineServersStore
 @inject MontrealOnlineServersStore MontrealOnlineServersStore
+@inject IServersEFCoreRepository ServersEFCoreRepository
+
 
 <h3>Servers</h3>
 <br />
@@ -62,27 +64,27 @@
                 StateHasChanged();
             }
 
-            var serversToronto = ServersRepository.GetServersByCity("Toronto");
+            var serversToronto = ServersEFCoreRepository.GetServersByCity("Toronto");
             if (serversToronto is not null)
             {
                 TorontoOnlineServersStore.SetNumbersServersOnline(serversToronto.Count(p => p.IsOnline));
             }
-            var serversOttawa = ServersRepository.GetServersByCity("Ottawa");
+            var serversOttawa = ServersEFCoreRepository.GetServersByCity("Ottawa");
             if (serversOttawa is not null)
             {
                 OttawaOnlineServersStore.SetNumbersServersOnline(serversOttawa.Count(p => p.IsOnline));
             }
-            var serversCalgary = ServersRepository.GetServersByCity("Calgary");
+            var serversCalgary = ServersEFCoreRepository.GetServersByCity("Calgary");
             if (serversCalgary is not null)
             {
                 CalgaryOnlineServersStore.SetNumbersServersOnline(serversCalgary.Count(p => p.IsOnline));
             }
-            var serversHalifax = ServersRepository.GetServersByCity("Halifax");
+            var serversHalifax = ServersEFCoreRepository.GetServersByCity("Halifax");
             if (serversHalifax is not null)
             {
                 HalifaxOnlineServersStore.SetNumbersServersOnline(serversHalifax.Count(p => p.IsOnline));
             }
-            var serversMontreal = ServersRepository.GetServersByCity("Montreal");
+            var serversMontreal = ServersEFCoreRepository.GetServersByCity("Montreal");
             if (serversMontreal is not null)
             {
                 MontrealOnlineServersStore.SetNumbersServersOnline(serversMontreal.Count(p => p.IsOnline));

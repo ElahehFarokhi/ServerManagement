@@ -1,4 +1,6 @@
 ﻿@using ServerManagement.Models
+@inject IServersEFCoreRepository ServersEFCoreRepository
+
 
 @* @if (this.servers != null && this.servers.Count > 0)
 {
@@ -45,11 +47,11 @@
     {
         if (!string.IsNullOrWhiteSpace(SearchFilter))
         {
-            servers = ServersRepository.SearchServers(SearchFilter);
+            servers = ServersEFCoreRepository.SearchServers(SearchFilter);
         }
         else if (CityName != null)
         {
-            servers = ServersRepository.GetServersByCity(CityName);
+            servers = ServersEFCoreRepository.GetServersByCity(CityName);
 
         }
     }

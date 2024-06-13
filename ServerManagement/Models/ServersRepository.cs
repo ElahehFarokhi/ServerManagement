@@ -4,21 +4,21 @@
     {
         private static List<Server> servers = new List<Server>()
         {
-            new Server {  ServerId = 1, Name = "Server1", City = "Toronto" },
-            new Server {  ServerId = 2, Name = "Server2", City = "Toronto" },
-            new Server {  ServerId = 3, Name = "Server3", City = "Toronto" },
-            new Server {  ServerId = 4, Name = "Server4", City = "Toronto" },
-            new Server {  ServerId = 5, Name = "Server5", City = "Montreal" },
-            new Server {  ServerId = 6, Name = "Server6", City = "Montreal" },
-            new Server {  ServerId = 7, Name = "Server7", City = "Montreal" },
-            new Server {  ServerId = 8, Name = "Server8", City = "Ottawa" },
-            new Server {  ServerId = 9, Name = "Server9", City = "Ottawa" },
-            new Server {  ServerId = 10, Name = "Server10", City = "Calgary" },
-            new Server {  ServerId = 11, Name = "Server11", City = "Calgary" },
-            new Server {  ServerId = 12, Name = "Server12", City = "Halifax" },
-            new Server {  ServerId = 13, Name = "Server13", City = "Halifax" },
-            new Server {  ServerId = 14, Name = "Server14", City = "Halifax" },
-            new Server {  ServerId = 15, Name = "Server15", City = "Halifax" },
+            new() {  ServerId = 1, Name = "Server1", City = "Toronto" },
+            new() {  ServerId = 2, Name = "Server2", City = "Toronto" },
+            new() {  ServerId = 3, Name = "Server3", City = "Toronto" },
+            new() {  ServerId = 4, Name = "Server4", City = "Toronto" },
+            new() {  ServerId = 5, Name = "Server5", City = "Montreal" },
+            new() {  ServerId = 6, Name = "Server6", City = "Montreal" },
+            new() {  ServerId = 7, Name = "Server7", City = "Montreal" },
+            new() {  ServerId = 8, Name = "Server8", City = "Ottawa" },
+            new() {  ServerId = 9, Name = "Server9", City = "Ottawa" },
+            new() {  ServerId = 10, Name = "Server10", City = "Calgary" },
+            new() {  ServerId = 11, Name = "Server11", City = "Calgary" },
+            new() {  ServerId = 12, Name = "Server12", City = "Halifax" },
+            new() {  ServerId = 13, Name = "Server13", City = "Halifax" },
+            new() {  ServerId = 14, Name = "Server14", City = "Halifax" },
+            new() {  ServerId = 15, Name = "Server15", City = "Halifax" },
         };
 
         public static void AddServer(Server server)

@@ -7,6 +7,7 @@
 @inject OttawaOnlineServersStore OttawaOnlineServersStore
 @inject HalifaxOnlineServersStore HalifaxOnlineServersStore
 @inject MontrealOnlineServersStore MontrealOnlineServersStore
+@inject IServersEFCoreRepository ServersEFCoreRepository
 
 <tr style="background-color: @GetBackGrounfColor()">
     <td>
@@ -62,7 +63,7 @@
 
     private void DeleteServer(int serverId)
     {
-        ServersRepository.DeleteServer(serverId);
+        ServersEFCoreRepository.DeleteServer(serverId);
         NavigationManager.NavigateTo("/servers", true);
     }
 

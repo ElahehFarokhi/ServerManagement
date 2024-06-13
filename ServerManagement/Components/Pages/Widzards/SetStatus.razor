@@ -2,6 +2,9 @@
 @using ServerManagement.Models
 @using ServerManagement.StateStore
 
+@inject IServersEFCoreRepository ServersEFCoreRepository
+
+
 @rendermode InteractiveServer
 
 @inherits ComponentBase
@@ -51,7 +54,7 @@
         {
             ContainerStorage.SetServer(null);
             server.IsOnline = isOnline;
-            ServersRepository.AddServer(server);
+            ServersEFCoreRepository.AddServer(server);
             NavigationManager.NavigateTo($"/servers/back_from/{server.City}");
         }
     }
